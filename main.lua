@@ -62,3 +62,34 @@ local function onPlayerAdded(player)
 end
 
 Players.PlayerAdded:Connect(onPlayerAdded)
+
+wait(2)
+
+local Remote = game.ReplicatedStorage:WaitForChild("Dressing")
+
+function sent(player, option)
+    if not player.Character:FindFirstChild("Clothes") then
+        local Clothes = Instance.new("Folder")
+        Clothes.Parent = player.Character
+        Clothes.Name = "Clothes"
+    end
+    if option == "Pants" then
+        if player.Character:FindFirstChild("Pants") then
+            player.Character.Pants.Parent = player.Character.Clothes
+        end
+    elseif option == "Shirt" then
+        if player.Character:FindFirstChild("Shirt") then
+            player.Character.Shirt.Parent = player.Character.Clothes
+        end
+    else
+        if player.Character.Clothes:FindFirstChild("Pants") then
+            player.Character.Clothes.Pants.Parent = player.Character
+        end
+        if player.Character.Clothes:FindFirstChild("Shirt") then
+            player.Character.Clothes.Shirt.Parent = player.Character
+        end
+        player.Character.Clothes:Destroy()
+    end
+end
+
+Remote.OnServerEvent:Connect(sent)
